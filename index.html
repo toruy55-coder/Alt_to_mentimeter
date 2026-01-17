@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/Alt_to_mentimeter/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoiceCollect Viewer | リアルタイム・アンケート集計</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script type="module" crossorigin src="/Alt_to_mentimeter/assets/index-DZkEfPOj.js"></script>
+  <link rel="stylesheet" crossorigin href="/Alt_to_mentimeter/assets/index-XTUnOt1J.css">
+</head>
+
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>VoiceCollect</h1>
+        <span class="badge">Live</span>
+      </div>
+
+      <div class="control-section">
+        <label for="form-filter">対象フォーム</label>
+        <select id="form-filter">
+          <option value="all">すべて表示</option>
+        </select>
+      </div>
+
+      <div class="control-section">
+        <label for="question-select">表示する質問</label>
+        <select id="question-select">
+        </select>
+      </div>
+
+      <div class="control-section">
+        <label>表示モード</label>
+        <div class="toggle-buttons">
+          <button id="mode-chart" class="active">グラフ</button>
+          <button id="mode-text">テキスト</button>
+        </div>
+      </div>
+
+      <div id="chart-type-section" class="control-section">
+        <label>グラフ種別</label>
+        <div class="type-grid">
+          <button data-type="bar" class="active">縦棒</button>
+          <button data-type="horizontalBar">横棒</button>
+          <button data-type="pie">円</button>
+        </div>
+      </div>
+
+      <div class="control-section">
+        <label>更新設定</label>
+        <div class="toggle-buttons">
+          <button id="refresh-manual" class="active">手動</button>
+          <button id="refresh-auto">自動</button>
+        </div>
+        <div id="interval-control" class="interval-input disabled">
+          <input type="number" id="refresh-interval" value="10" min="1" max="60">
+          <span>秒間隔</span>
+        </div>
+      </div>
+
+      <div class="control-section settings-box">
+        <label for="api-url-input">API設定 (Apps Script URL)</label>
+        <div class="api-input-group">
+          <input type="password" id="api-url-input" placeholder="https://script.google.com/..." />
+          <button id="btn-save-api" class="icon-btn" title="保存">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+              <polyline points="17 21 17 13 7 13 7 21" />
+              <polyline points="7 3 7 8 15 8" />
+            </svg>
+          </button>
+        </div>
+        <p class="api-status" id="api-status-text">未設定（デモデータ表示中）</p>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="btn-refresh" class="primary-btn">最新の状態に更新</button>
+        <p class="last-sync">最終更新: <span id="sync-time">--:--:--</span></p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="main-header">
+        <div class="header-info">
+          <h2 id="current-question-title">質問を選択してください</h2>
+          <div class="stats">
+            <span class="stat-item">回答件数: <strong id="total-responses">0</strong> 件</span>
+            <span id="loading-badge" class="badge-loading hidden">更新中...</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="btn-fullscreen" title="全画面表示">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section id="display-container" class="display-area">
+        <div id="chart-wrapper" class="visualization-container">
+          <canvas id="main-chart"></canvas>
+        </div>
+        <div id="text-wrapper" class="visualization-container hidden">
+          <div id="word-cloud" class="word-cloud-area"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>
